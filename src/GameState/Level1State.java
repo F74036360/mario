@@ -28,7 +28,7 @@ public class Level1State extends GameState {
 	public static int money;
 	private int life;
 	private int templife;
-	
+
 	private boolean bumpstone;
 	private boolean jump;
 	private BadGuy bad2;
@@ -61,7 +61,7 @@ public class Level1State extends GameState {
 		bad1.vertical=false;
 		bad2=new BadGuy("/BackGround/GHOST.gif",1400,100);
 		bad2.vertical=true;
-		
+
 		stone=new Stuff("/BackGround/stone.png",1350,200);
 		stone.width=150;
 		stone.height=200;
@@ -75,12 +75,12 @@ public class Level1State extends GameState {
 		badL_Vertical.dx=-2;
 		badL_Vertical.vertical=true;
 		color_title=new Color(128,0,0);
-		int style = Font.BOLD | Font.ITALIC;  
+		int style = Font.BOLD | Font.ITALIC;
 		font = new Font("Jokerman", Font.PLAIN, 20);
-		
+
 		try{
 			image=ImageIO.read(getClass().getResourceAsStream("/BackGround/money.png"));
-			
+
 		}catch(Exception e)
 		{
 			if(image==null)System.out.println("NULLINPUT");
@@ -88,10 +88,10 @@ public class Level1State extends GameState {
 		}
 		for(int i=0;i<7;i++)
 		{
-			co[i]=new coin("/BackGround/bad1.png",150+i*70,250); 
+			co[i]=new coin("/BackGround/bad1.png",150+i*70,250);
 			co[i].dy=-0.5;
 		}
-	
+
 	}
 
 	public void collision_banana(BadGuy bad,Stuff thing)
@@ -118,14 +118,14 @@ public class Level1State extends GameState {
 				co[3].y=thing.y-co[3].height-20;
 				co[3].dy=0;
 			}
-			
+
 		}
-		
+
 	}
-	
+
 	public void collision_hero(Attack badL)
 	{
-		
+
 		if(badL.y+40>hero.y&&badL.y+40<hero.y+hero.height&&badL.x>hero.x&&badL.x<hero.x+hero.width)
 		{
 			templife++;
@@ -134,17 +134,17 @@ public class Level1State extends GameState {
 				life-=1;
 				templife=0;
 			}
-			
-			
-			
+
+
+
 		}
-		
+
 	}
-	
+
 	@Override
 	public void KeyPressed(int k) {
-		
-		
+
+
 		if(k==KeyEvent.VK_UP)
 		{
 			hero.dy=-5;
@@ -180,14 +180,14 @@ public class Level1State extends GameState {
 					co[i].dx=-2;
 				}
 			}
-	
+
 		}
-		
+
 		if(k==KeyEvent.VK_LEFT)
 		{
 			if(bumpstone==true&&stone.x>0)
 			{
-				
+
 				stone.dx=0;
 				bad2.dx=0;
 				hero.dx=0;
@@ -197,7 +197,7 @@ public class Level1State extends GameState {
 				{
 					co[i].dx=0;
 				}
-				
+
 			}
 			else
 			{
@@ -210,31 +210,31 @@ public class Level1State extends GameState {
 				{
 					co[i].dx=2;
 				}
-				
+
 			}
 
-			
+
 		}
-	
+
 		if(k==KeyEvent.VK_SPACE)
 		{
 			banana.x=(int)hero.x+20;
-			banana.y=(int)hero.y+20;	
+			banana.y=(int)hero.y+20;
 		}
-		
+
 	}
-	
+
 	@Override
 	public void KeyReleased(int k)  {
-		
-		
-		
-		
-		
+
+
+
+
+
 		bad2.boundmax=200;
 		bad2.boundmin=50;
-	
-		
+
+
 		if(hero.x<20)
 		{
 			hero.x=20;
@@ -247,35 +247,35 @@ public class Level1State extends GameState {
 			else if(hero.x>stage.x-30&&hero.x<stage.x+stage.width)collision_stuff(stage);
 			else if(hero.x>stone.x-50&&hero.x<stone.x+stone.width+50)
 			{
-		
+
 				collision_stuff(stone);
-				
+
 			}
 			else hero.y=270;
-			
-	
+
+
 			hero.dy=0;
-		
+
 		}
-		
+
 		else if(hero.dx!=0)
 		{
-			
+
 			if(hero.x>house.x-30&&hero.x<house.x+house.width)collision_stuffx(house);
 			else if(hero.x>stage.x-30&&hero.x<stage.x+stage.width)collision_stuffx(stage);
 			else if(hero.x>stone.x-50&&hero.x<stone.x+stone.width+50)
 			{
-	
+
 				collision_stuffx(stone);
-				
+
 			}
 			else hero.y=270;
-			
+
 			hero.dx=0;
 		}
-		
-		
-		
+
+
+
 		house.dx=0;
 		stage.dx=0;
 		stone.dx=0;
@@ -286,46 +286,46 @@ public class Level1State extends GameState {
 		{
 			co[i].dx=0;
 		}
-		
-	}
-	
 
-	
+	}
+
+
+
 	public void collision_coin()
 	{
 		for(int i=0;i<7;i++)
 		{
 			if(hero.x+hero.width>co[i].x&&hero.y<co[i].y+co[i].height&&hero.x<co[i].x+co[i].width&&co[i].bump==false)
 			{
-				
+
 				co[i].bump=true;
 				money+=10;
 				System.out.println(money);
-			}		
+			}
 		}
 	}
-	
 
-	
+
+
 	public void collision_stuffx(Stuff thing)
 	{
-		
+
 		if(hero.x+hero.width>thing.x&&hero.x<thing.x+thing.width&&hero.y+hero.height-30<thing.y)
 		{
 			hero.y=thing.y-hero.height;
 			jump=true;
 		}
-		else 
+		else
 		{
 			hero.y=270;
-			
+
 		}
-		
-		
+
+
 	}
 	public void collision_stuff(Stuff thing)
 	{
-		
+
 		if(hero.dx!=0)
 		{
 			if(hero.x>thing.x)
@@ -339,7 +339,7 @@ public class Level1State extends GameState {
 						if(thing==stone)jump=true;
 					}
 				}
-				
+
 			}
 			else
 			{
@@ -349,7 +349,7 @@ public class Level1State extends GameState {
 		}
 		else
 		{
-			
+
 			if(hero.x+hero.width>thing.x&&hero.x+20<thing.x+thing.width&&hero.height-30<thing.y)
 			{
 				hero.y=thing.y-hero.height;
@@ -357,8 +357,8 @@ public class Level1State extends GameState {
 			else hero.y=270;
 
 		}
-	
-		
+
+
 	}
 
 	@Override
@@ -367,23 +367,23 @@ public class Level1State extends GameState {
 
 		if(hero.dx!=0)
 		{
-			
+
 			if(hero.x>house.x-30&&hero.x<house.x+house.width)collision_stuffx(house);
 			else if(hero.x>stage.x-30&&hero.x<stage.x+stage.width)collision_stuffx(stage);
 			else if(hero.x>stone.x-50&&hero.x<stone.x+stone.width+50)
 			{
 
 				collision_stuffx(stone);
-				
+
 			}
 			else hero.y=270;
-			
-			
+
+
 		}
-		
-	
-		
-		
+
+
+
+
 		if(banana.x>600)
 		{
 			banana.x=1200;
@@ -399,7 +399,7 @@ public class Level1State extends GameState {
 			badL_Vertical.x=(int)bad2.x+20;
 			badL_Vertical.y=(int)bad2.y-20;
 		}
-		
+
 		collision_banana(bad1,stage);
 		collision_banana(bad2,stone);
 		collision_hero(badL);
@@ -420,21 +420,21 @@ public class Level1State extends GameState {
 		{
 			co[i].update();
 		}
-		 
-		
+
+
 		endTime = System.currentTimeMillis();
 		deltatime=(endTime-StartTime)/1000;
-		if(deltatime==2)
+		if(deltatime==15)
 		{
 			gsm.setState(GameStateManager.Store);
-			
+
 		}
 		if(life==0)
 		{
 			gsm.setState(GameStateManager.Restart);
 		}
-	
-	
+
+
 	}
 
 	@Override
@@ -452,7 +452,7 @@ public class Level1State extends GameState {
 		bad2.draw(g);
 		badL.draw(g);
 		badL_Vertical.draw(g);
-		
+
 		stone.draw(g);
 		for(int i=0;i<7;i++)
 		{
@@ -462,11 +462,11 @@ public class Level1State extends GameState {
 		banana.draw(g);
 	}
 
-	public void randomstuff() 
+	public void randomstuff()
 	{
 		if(house.x+house.width<0)
 		{
-		
+
 			house.x=1000;
 			house.y=270;
 			System.out.println("into random");
@@ -474,19 +474,19 @@ public class Level1State extends GameState {
 			co[2].x=house.x+20;
 			co[2].y=house.y-co[2].height-20;
 			co[2].dy=0;
-			
+
 			co[1].bump=false;
 			co[1].x=house.x+80;
 			co[1].y=house.y-co[1].height-20;
 			co[1].dy=-0.01;
-			
-			
+
+
 		}
 		if(stage.x+stage.width<0)
 		{
 			Random ran=new Random();
 			int r=ran.nextInt(2);
-			
+
 			switch(r)
 			{
 			case 0:
@@ -494,16 +494,16 @@ public class Level1State extends GameState {
 				stage.y=120;
 				bad1.x=700;
 				bad1.moveScale=-0.5;
-				
+
 
 				bad1.y=stage.y-bad1.height;
 				bad1.bumped=false;
 				break;
-		
+
 			case 1:
 				stage.x=1000;
 				stage.y=120;
-				
+
 				co[4].bump=false;
 				co[4].x=stage.x+20;
 				co[4].y=stage.y-co[1].height-20;
@@ -513,10 +513,10 @@ public class Level1State extends GameState {
 				co[5].y=stage.y-co[1].height-20;
 				co[5].dy=-0.01;
 				break;
-				
+
 			}
-			
-			
+
+
 		}
 		if(stone.x+stone.width<0)
 		{
@@ -525,7 +525,7 @@ public class Level1State extends GameState {
 			bad2.x=1050;
 			bad2.y=200;
 			bad2.bumped=false;
-			
+
 		}
 	}
 }
